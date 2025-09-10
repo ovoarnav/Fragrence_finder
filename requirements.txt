@@ -1,4 +1,4 @@
-Flask==3.0.3
-SQLAlchemy==2.0.32
-pandas==2.2.2
+Flask
+SQLAlchemy
+pandas
 gunicorn
