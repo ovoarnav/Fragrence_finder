@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form class="row g-2 mb-3" method="get">
+  <div class="col-9">
+    <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Search perfume...">
+  </div>
+  <div class="col-3 d-grid">
+    <button class="btn btn-primary">Search</button>
+  </div>
+</form>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+{% if detail %}
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4>{{ detail.name }}</h4>
+      <p>{{ detail.brand }} {% if detail.year %}({{ detail.year }}){% endif %}</p>
+      <p><strong>Accords:</strong> {{ detail.accords|join(", ") }}</p>
+      <p><strong>Top Notes:</strong> {{ detail.notes.top|join(", ") }}</p>
+      <p><strong>Middle Notes:</strong> {{ detail.notes.middle|join(", ") }}</p>
+      <p><strong>Base Notes:</strong> {{ detail.notes.base|join(", ") }}</p>
+      {% if detail.url %}<a href="{{ detail.url }}" target="_blank">See on Fragrantica</a>{% endif %}
+
+      <hr>
+      <h5>Your Notes</h5>
+      {% if notes %}
+        <ul class="list-group mb-3">
+          {% for n in notes %}
+            <li class="list-group-item">
+              <div class="small text-muted">{{ n.created_at }}</div>
+              {{ n.note_text }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">No notes yet.</p>
+      {% endif %}
+
+      <form method="post" class="row g-2">
+        <input type="hidden" name="fname" value="{{ detail.name }}">
+        <div class="col-12">
+          <textarea name="note_text" class="form-control" placeholder="Write your thoughts..." required></textarea>
+        </div>
+        <div class="col-12 d-grid d-md-inline">
+          <button class="btn btn-success">Add Note</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
